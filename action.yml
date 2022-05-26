@@ -17,9 +17,20 @@ inputs:
   job-params:
     description: "params to run the job. JSON string. i.e '{'param1': 'value1', 'param2': 'value2'}' "
     required: false
+  include-logs:
+    description: "Include the logs in the output"
+    required: false
+
 outputs:
   job_status:
     description: 'Build status'
+  job_number:
+    description: 'Build number'
+  job_url:
+    description: 'Build URL'
+  job_log_info:
+    description: 'Build logs that have been b64 encoded'
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -29,6 +40,8 @@ runs:
     - ${{ inputs.user}}
     - ${{ inputs.job-path }}
     - ${{ inputs.job-params}}
+    - ${{ inputs.include-logs}}
+
 branding:
   icon: 'arrow-right-circle'
   color: 'blue'
