@@ -62,7 +62,7 @@ info = jp.poll_build(build_number=queue_item["executable"]["number"])
 
 if INCLUDE_LOGS:
     log_info = jp.server.get_build_console_output(jp.job_name, info['number'])
-    log_info = base64.b64encode(log_info.encode('utf-8'))
+    log_info = str(base64.b64encode(log_info.encode('utf-8'))).strip()
     print(f"::set-output name=job_log_info::{log_info}")
 else:
     print(f"::set-output name=job_log_info::")
