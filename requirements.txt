@@ -1,2 +1,10 @@
-python_jenkins==1.7.0
+certifi==2022.12.7
+charset-normalizer==3.1.0
+idna==3.4
 jenkins==1.0.2
+multi-key-dict==2.0.3
+pbr==5.11.1
+python-jenkins==1.8.0
+requests==2.30.0
+six==1.16.0
+urllib3==1.26.15
