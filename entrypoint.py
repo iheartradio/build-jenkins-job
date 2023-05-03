@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import base64
 import json
 import sys
@@ -12,6 +13,11 @@ def mandatory_arg(argv):
     if argv == "":
         raise ValueError("Only job_params can be empty. Required fields: url, token, user and path")
     return argv
+
+
+def to_gh_output(key, value):
+    with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+        print(f"{key}={value}", file=fh)
 
 
 # mandatory
@@ -63,13 +69,13 @@ info = jp.poll_build(build_number=queue_item["executable"]["number"])
 if INCLUDE_LOGS:
     log_info = jp.server.get_build_console_output(jp.job_name, info['number'])
     log_info = str(base64.b64encode(log_info.encode('utf-8'))).strip()
-    print(f"::set-output name=job_log_info::{log_info}")
+    to_gh_output(key="job_log_info", value=log_info)
 else:
-    print(f"::set-output name=job_log_info::")
+    to_gh_output(key="job_log_info", value="")
 
-print(f"::set-output name=job_status::{info['result']}")
-print(f"::set-output name=job_number::{info['number']}")
-print(f"::set-output name=job_url::{info['url']}")
+to_gh_output(key="job_status", value=info["result"])
+to_gh_output(key="job_number", value=info["number"])
+to_gh_output(key="job_url", value=info["url"])
 
 if info['result'] != "SUCCESS":
     sys.exit(1)
