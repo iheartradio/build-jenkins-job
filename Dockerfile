@@ -1,5 +1,5 @@
 # Container image that runs your code
-FROM python:3.8
+FROM public.ecr.aws/docker/library/python:3.8
 
 #install pre-requisites
 RUN apt-get update
